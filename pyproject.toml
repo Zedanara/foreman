@@ -1,0 +1,17 @@
+[project]
+name = "foreman"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Ivan", email = "s181426@student.uken.krakow.pl" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+foreman = "foreman:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
