@@ -1,7 +1,7 @@
 [project]
 name = "foreman"
 version = "0.1.0"
-description = "Add your description here"
+description = "Local-first multi-agent assistant in Telegram. Hand-written agent loop, no framework. Runs on Ollama, switches to any OpenAI-compatible API via config."
 readme = "README.md"
 authors = [
     { name = "Ivan", email = "s181426@student.uken.krakow.pl" }
