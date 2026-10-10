@@ -58,17 +58,38 @@ CI runs ruff and pytest on every pull request and on pushes to `main`.
 
 ## Benchmarks
 
-Local `gpt-oss:20b` on RTX 3080 Ti. `PROCESSOR` is taken from `ollama ps`,
-tokens/s is the `eval rate` from `ollama run gpt-oss:20b --verbose`.
+`gpt-oss:20b` (MXFP4) on Ollama 0.40.2, NVIDIA RTX 3080 Ti Laptop GPU (16 GB).
+Measured on 2026-10-10 with [`scripts/bench_ctx.py`](scripts/bench_ctx.py):
+the same 256-token generation, median of 3 runs after a warm-up, tokens/s from
+Ollama's own `eval_count / eval_duration`. `PROCESSOR` and `CONTEXT` are taken
+from `ollama ps` after the runs to confirm the setting was applied.
 
-| num_ctx | PROCESSOR (`ollama ps`) | Tokens/s | Notes |
-|---------|-------------------------|----------|-------|
-| 4096    | TODO                    | TODO     |       |
-| 8192    | TODO                    | TODO     |       |
-| 16384   | TODO                    | TODO     |       |
-| 32768   | TODO                    | TODO     |       |
+| num_ctx | PROCESSOR (`ollama ps`) | Tokens/s (median) | Runs             |
+|---------|-------------------------|-------------------|------------------|
+| 4096    | 100% GPU                | 56.2              | 55.1, 56.4, 56.2 |
+| 8192    | 100% GPU                | 56.3              | 55.2, 57.1, 56.3 |
+| 16384   | 100% GPU                | 55.8              | 57.2, 54.6, 55.8 |
+| 32768   | 100% GPU                | 55.6              | 51.8, 57.6, 55.6 |
 
-TODO: not measured yet, see #4.
+Up to 32768 the model stays fully on the GPU and speed does not depend on
+num_ctx, so Foreman uses **16384**: plenty of room for tool results without
+wasting VRAM. On a laptop the numbers depend on the power mode (on AC power or
+on battery), so compare runs only under the same conditions.
+
+Reproduce: `uv run python scripts/bench_ctx.py`.
+
+### Context size
+
+The OpenAI-compatible API has no `num_ctx` parameter, so the context size is
+set on the Ollama server. On Windows:
+
+```
+setx OLLAMA_CONTEXT_LENGTH 16384
+```
+
+Then quit Ollama from the tray and start it again (the variable is read only at
+startup). Check with `ollama ps` while a model is loaded: the `CONTEXT`
+column must show `16384`.
 
 ## Roadmap
 

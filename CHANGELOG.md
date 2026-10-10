@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   local Ollama by default (#3).
 - ADR 0001: hand-written agent loop instead of a framework (#5).
 - README and this changelog (#10).
+- num_ctx benchmarks for `gpt-oss:20b` and `scripts/bench_ctx.py` (#4).
