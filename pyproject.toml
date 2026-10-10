@@ -1,0 +1,33 @@
+[project]
+name = "foreman"
+version = "0.1.0"
+description = "Local-first multi-agent assistant in Telegram. Hand-written agent loop, no framework. Runs on Ollama, switches to any OpenAI-compatible API via config."
+readme = "README.md"
+authors = [
+    { name = "Ivan", email = "s181426@student.uken.krakow.pl" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+foreman = "foreman:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
